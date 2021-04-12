@@ -12,7 +12,12 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-static const size_t TAB_WIDTH = 8;
+size_t TAB_WIDTH = 8;
+
+void __attribute__((constructor)) set_tab_width()
+{
+    TAB_WIDTH = 15;
+}
 
 /* Hardware text mode color constants. */
 enum vga_color {
@@ -248,7 +253,7 @@ void kernel_main(void)
     }
     screen_scrolling_up(20);
     terminal_setcolor(vga_entry_color(VGA_COLOR_RED, VGA_COLOR_LIGHT_BLUE));
-    terminal_writestring("kernel_main end!\n");
+    terminal_writestring("kernel_main\tend!\n");
 
 
     /*
