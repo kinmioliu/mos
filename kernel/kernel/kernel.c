@@ -1,7 +1,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
- 
+#include <mm.h>
+
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -254,7 +255,9 @@ void kernel_main(void)
     screen_scrolling_up(20);
     terminal_setcolor(vga_entry_color(VGA_COLOR_RED, VGA_COLOR_LIGHT_BLUE));
     terminal_writestring("kernel_main\tend!\n");
-
+    if (get_phynamic_memory_size() != -1) {
+        terminal_writestring("get_physical_memory_size()\n");
+    }
 
     /*
     terminal_row = VGA_HEIGHT - 2;
