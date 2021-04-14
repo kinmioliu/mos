@@ -1,6 +1,7 @@
 #include <stddef.h>
-
-int putchar()
+extern void terminal_putchar(char c);
+int putchar(char c)
 {
-    return 1;
+    terminal_putchar(c);
+    return 0;
 }
