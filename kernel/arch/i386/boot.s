@@ -63,7 +63,9 @@ _start:
 	in assembly as languages such as C cannot function without a stack.
 	*/
 	mov $stack_top, %esp
- 
+ 	push %eax // eax is magic 0x2badb002
+	push %ebx // eax is mbd ptr
+	call init_memory
 	/*
 	This is a good place to initialize crucial processor state before the
 	high-level kernel is entered. It's best to minimize the early

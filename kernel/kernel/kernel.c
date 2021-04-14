@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <mm.h>
+#include <stdio.h>
+#include <multiboot.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -229,7 +231,8 @@ char get_random_char()
     int c = rand() % 26 ;
     return rand() % 2 ? 'A' + c : 'a' + c;
 }
-
+extern multibool_info_t* g_mbd;
+extern unsigned int g_magic;
 void kernel_main(void) 
 {
     /* Initialize terminal interface */
@@ -257,6 +260,26 @@ void kernel_main(void)
     terminal_writestring("kernel_main\tend!\n");
     if (get_phynamic_memory_size() != -1) {
         terminal_writestring("get_physical_memory_size()\n");
+    }
+    if (g_mbd == NULL) {
+	    terminal_writestring("mdb is a a null\n");
+    } else {
+	    terminal_writestring("mdb not a a null\n");
+    }
+
+	printk("g_mbd is:0x%x, magic is:0x%x\n", g_mbd, g_magic);
+    printk("mem_upper:%x, mem_lower:%x, boot_device:%x, mmap_length:%x, mmap_addr:%x\n",
+            g_mbd->mem_upper, g_mbd->mem_lower, g_mbd->boot_device, g_mbd->mmap_length, g_mbd->mmap_addr);
+
+    if (g_magic == 0x534d4150 || g_mbd == 0x534d4150) {
+    	terminal_writestring(" detected magic\n");
+	if (g_magic == 0x534d4150) {
+		terminal_writestring(" g_magic\n");
+	} else {
+		terminal_writestring(" gmbd\n");
+	}
+    } else {
+	terminal_writestring("no magic\n");
     }
 
     /*

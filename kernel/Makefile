@@ -2,7 +2,7 @@
 CC = i686-elf-gcc
 AS = i686-elf-as
 
-SYSROOT=-isystem ../sysroot/usr/local/include/ -isystem ./kernel/
+SYSROOT=-isystem ../sysroot/usr/local/include/ -isystem ./kernel/ -L ../sysroot/usr/local/lib
 
 #default configure
 CFLAGS ?= -O2 -g # ?= if not assigned ,then assigned
@@ -10,7 +10,7 @@ LIBS ?=
 
 #set additional flag to this Makefile
 CFLAGS := $(CFLAGS) -ffreestanding -Wall -Wextra
-LIBS := $(LIBS) -nostdlib -lgcc #use libgcc.a libk.a
+LIBS := $(LIBS) -nostdlib -lk -lgcc #use libgcc.a libk.a
 
 ARCHDIR=arch/i386
 include $(ARCHDIR)/make.config
@@ -44,7 +44,7 @@ all:mos.kernel
 
 #because mos.kernel is a archive file, so $@ is mos.kernel, if target is object file, then $@ is multi files
 mos.kernel:$(OBJS)
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST) $(LIBS)
+	$(CC) $(SYSROOT) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST) $(LIBS)
 	grub-file --is-x86-multiboot mos.kernel
 
 $(ARCHDIR)/crtbegin.o:
