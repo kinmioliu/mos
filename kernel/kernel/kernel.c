@@ -14,6 +14,9 @@
 #if !defined(__i386__)
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
+extern multiboot_info_t* g_mbd;
+extern unsigned int g_magic;
+extern void print_boot_page_table();
 
 size_t TAB_WIDTH = 8;
 
@@ -60,7 +63,7 @@ size_t strlen(const char* str)
     return len;
 }
 
-void memcpy(void *dest, void *src, size_t size)
+void terminal_memcpy(void *dest, void *src, size_t size)
 {
     size_t inx = 0;
     while(inx < size) {
@@ -76,13 +79,18 @@ size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
- 
+
+uint32_t page_directory[1024] __attribute__((aligned(4096)));
+uint32_t first_page_table[1024] __attribute__((aligned(4096)));
+uint32_t pt_768[1024] __attribute__((aligned(4096)));
+
 void terminal_initialize(void) 
 {
     terminal_row = 0;
     terminal_column = 0;
     terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-    terminal_buffer = (uint16_t*) 0xB8000;
+    terminal_buffer = (uint16_t*)0xb8000;
+    terminal_buffer = (uint16_t*)0xC03FF000;
     for (size_t y = 0; y < VGA_HEIGHT; y++) {
         for (size_t x = 0; x < VGA_WIDTH; x++) {
             const size_t index = y * VGA_WIDTH + x;
@@ -231,33 +239,71 @@ char get_random_char()
     int c = rand() % 26 ;
     return rand() % 2 ? 'A' + c : 'a' + c;
 }
-extern multibool_info_t* g_mbd;
-extern unsigned int g_magic;
+
+void set_pd_not_present()
+{
+	int i;
+	for(i = 0; i < 1024; i++)
+	{
+    // This sets the following flags to the pages:
+    //   Supervisor: Only kernel-mode can access them
+    //   Write Enabled: It can be both read from and written to
+    //   Not Present: The page table is not present
+    	page_directory[i] = 0x00000002;
+	}
+}
+
+
+void set_pt1()
+{
+	unsigned int i = 0xb8;
+	//we will fill all 1024 entries in the table, mapping 4 megabytes
+	for(; i < 1024; i++)
+	{
+    	// As the address is page aligned, it will always leave 12 bits zeroed.
+    	// Those bits are used by the attributes ;)
+    	first_page_table[i] = (i * 0x1000) | 3; // attributes: supervisor level, read/write, present.
+	}
+}
+
+void set_pt768()
+{
+    unsigned int i = 0;
+}
+
+// This should go outside any function..
+extern void loadPageDirectory(unsigned int*);
+extern void enablePaging();
+
 void kernel_main(void) 
 {
+    /*
+	// set pt1 to pd
+    set_pd_not_present();
+    set_pt1();
+    page_directory[0] = ((unsigned int)first_page_table) | 3;
+
+    // And this inside a function
+    loadPageDirectory(page_directory);
+    enablePaging();
+    */
     /* Initialize terminal interface */
     terminal_initialize();
-    terminal_row = 5;
+    printk("pd:%x, pt:%x\n", page_directory, first_page_table);
+    //return;
     /* Newline support is left as an exercise. */
     terminal_writestring("Hello, kernel World!\nthis is a new line.\n");
     terminal_writestring("another str.\n");
     terminal_writestring("this is a tab\ta.\n");
-    for (int i = 0; i < 77; i++)
-        terminal_putchar('c');
-    terminal_putchar('\t');
-    terminal_putchar('c');        
-    terminal_putchar('\n');
     for (int i = 0; i < 30; i++) {
         terminal_writestring("this is a line");
         terminal_putchar('0'+i);
-        //terminal_putchar(get_random_char());
-        //terminal_putchar('e');
         terminal_putchar('\n');
         tmp_sleep();
     }
-    screen_scrolling_up(20);
-    terminal_setcolor(vga_entry_color(VGA_COLOR_RED, VGA_COLOR_LIGHT_BLUE));
-    terminal_writestring("kernel_main\tend!\n");
+    // terminal_setcolor(vga_entry_color(VGA_COLOR_RED, VGA_COLOR_LIGHT_BLUE));
+    printk("kernel_main\tend!:%x\n", get_phynamic_memory_size);
+    
     if (get_phynamic_memory_size() != -1) {
         terminal_writestring("get_physical_memory_size()\n");
     }
@@ -268,8 +314,12 @@ void kernel_main(void)
     }
 
 	printk("g_mbd is:0x%x, magic is:0x%x\n", g_mbd, g_magic);
+    //print_boot_page_table();
     printk("mem_upper:%x, mem_lower:%x, boot_device:%x, mmap_length:%x, mmap_addr:%x\n",
             g_mbd->mem_upper, g_mbd->mem_lower, g_mbd->boot_device, g_mbd->mmap_length, g_mbd->mmap_addr);
+    printk("sizeof multiboot_mmap_entry:%d\n", sizeof(multiboot_memory_map_t));
+    print_multiboot_info();
+
 
     if (g_magic == 0x534d4150 || g_mbd == 0x534d4150) {
     	terminal_writestring(" detected magic\n");
