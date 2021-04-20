@@ -46,7 +46,7 @@ static void print_uhex(unsigned int uinteger)
     int uistrlen = 0;
     int inx = 0;
     unsigned int remain;
-    char str[sizeof(unsigned int) * 2];
+    char str[8];
 
     if(uinteger == 0) {
         putchar('0');
@@ -67,7 +67,7 @@ static void print_llx(unsigned long long ullInteger)
     int strlen = 0;
     int inx = 0;
     unsigned long long remain;
-    char str[sizeof(unsigned long long) * 2];
+    char str[sizeof(unsigned long long)];
     if (ullInteger == 0) {
         putchar('0');
         return;
