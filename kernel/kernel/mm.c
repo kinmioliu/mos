@@ -11,13 +11,44 @@ int get_phynamic_memory_size()
     return t;
 }
 
+static inline uint32_t get_cr3()
+{
+    uint32_t cr3;
+    __asm__ volatile (
+        "movl %%cr3, %0;"
+        :"=a"(cr3)
+    );
+    return cr3;
+}
+
+#if defined(__i386__)
+/* i386 has a two level pt 
+ * |31    22|21    12|11  0|
+ *    pd       pt      page_off
+**/
+uint32_t *page_directory;
+void set_page_directory()
+{
+    uint32_t cr3 = get_cr3();
+    page_directory = (uint32_t *)(cr3 + 0xC0000000);
+}
+
+#define PD_INX(VA) ((VA) >> 22)
+#define PT_INX(VA) ((VA) >> 12 & 0x3FF)
+#define PT_TBL(VA) ((page_directory[PD_INX(VA)] & 0xFFFFF000) + 0xC0000000)
+#define VA2PA(VA) (((uint32_t *)PT_TBL((VA)))[PT_INX(VA)] & 0xFFFFF000 + ((VA)&0xFFF) )
+#endif
+
+
 void print_boot_page_table()
 {
+    set_page_directory();
     unsigned long pd;
     __asm__ volatile (
         "movl %%cr3, %0;"
 	:"=a"(pd)
 	);
+    printk("va:0x%x, pa:0x%x\n", 0xC03FF000, VA2PA(0xC03FF000));
     printk("cr3:0x%x\n", pd );
     unsigned int *pt1 = (unsigned long*)(((unsigned long*)(pd + 0xC0000000))[0xC0100000>>22] & 0xfffff000);
     printk("pt1:0x%x\n", pt1);

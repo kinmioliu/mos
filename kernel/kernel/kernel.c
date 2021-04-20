@@ -18,6 +18,7 @@ extern multiboot_info_t* g_mbd;
 extern unsigned int g_magic;
 extern void print_boot_page_table();
 
+
 size_t TAB_WIDTH = 8;
 
 void __attribute__((constructor)) set_tab_width()
@@ -314,7 +315,8 @@ void kernel_main(void)
     }
 
 	printk("g_mbd is:0x%x, magic is:0x%x\n", g_mbd, g_magic);
-    //print_boot_page_table();
+    print_boot_page_table();
+    return;
     printk("mem_upper:%x, mem_lower:%x, boot_device:%x, mmap_length:%x, mmap_addr:%x\n",
             g_mbd->mem_upper, g_mbd->mem_lower, g_mbd->boot_device, g_mbd->mmap_length, g_mbd->mmap_addr);
     printk("sizeof multiboot_mmap_entry:%d\n", sizeof(multiboot_memory_map_t));
