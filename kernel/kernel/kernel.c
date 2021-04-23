@@ -291,6 +291,7 @@ void kernel_main(void)
     /* Initialize terminal interface */
     terminal_initialize();
     printk("pd:%x, pt:%x\n", page_directory, first_page_table);
+    test_idts();
     //return;
     /* Newline support is left as an exercise. */
     terminal_writestring("Hello, kernel World!\nthis is a new line.\n");

@@ -136,7 +136,8 @@ kernel:
 	push %ebx /*mbd*/
     
     call init_memory
-    
+    call register_gdt
+    call reload_segment
 	/*
 	This is a good place to initialize crucial processor state before the
 	high-level kernel is entered. It's best to minimize the early
