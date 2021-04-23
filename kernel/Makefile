@@ -22,8 +22,10 @@ LIBS := $(LIBS) $(KERNEL_ARCH_LIBS)
 #objs
 KERNEL_OBJS = \
 	$(KERNEL_ARCH_OBJS) \
+	kernel/debug.o \
 	kernel/kernel.o \
-	kernel/mm.o
+	kernel/mm.o \
+	kernel/idts.o
 
 OBJS = \
 	$(ARCHDIR)/crti.o \
