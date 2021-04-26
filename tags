@@ -1,0 +1,244 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AR	libc/Makefile	/^AR=i686-elf-ar$/;"	m
+ARCHDIR	kernel/Makefile	/^ARCHDIR=arch\/i386$/;"	m
+ARCHDIR	libc/Makefile	/^ARCHDIR=arch\/i386$/;"	m
+AS	Makefile	/^AS:=i686-elf-as$/;"	m
+AS	kernel/Makefile	/^AS = i686-elf-as$/;"	m
+BINARY	libc/Makefile	/^BINARY=libc.a libk.a$/;"	m
+CC	Makefile	/^CC:=i686-elf-gcc$/;"	m
+CC	kernel/Makefile	/^CC = i686-elf-gcc$/;"	m
+CC	libc/Makefile	/^CC=i686-elf-gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS := -ffreestanding -Wall -Wextra$/;"	m
+CFLAGS	kernel/Makefile	/^CFLAGS := $(CFLAGS) $(KERNEL_ARCH_CFLAGS)$/;"	m
+CFLAGS	kernel/Makefile	/^CFLAGS := $(CFLAGS) -ffreestanding -Wall -Wextra$/;"	m
+CFLAGS	kernel/Makefile	/^CFLAGS ?= -O2 -g # ?= if not assigned ,then assigned$/;"	m
+CFLAGS	libc/Makefile	/^CFLAGS:=$(CFLAGS) -Wall -Wextra$/;"	m
+CFLAGS	libc/Makefile	/^CFLAGS?=-O2 -g$/;"	m
+DESTDIR	libc/Makefile	/^DESTDIR=..\/sysroot\/usr\/local$/;"	m
+ERROR_DIGIT_CHAR	libc/stdio/print.c	/^static const char ERROR_DIGIT_CHAR = '@';$/;"	v	file:
+ERROR_DIGIT_CHAR	libc/test/print.c	/^static const char ERROR_DIGIT_CHAR = '@';$/;"	v	file:
+KERNEL_OBJS	kernel/Makefile	/^KERNEL_OBJS = \\$/;"	m
+LIBS	kernel/Makefile	/^LIBS := $(LIBS) $(KERNEL_ARCH_LIBS)$/;"	m
+LIBS	kernel/Makefile	/^LIBS := $(LIBS) -nostdlib -lk -lgcc #use libgcc.a libk.a$/;"	m
+LIBS	kernel/Makefile	/^LIBS ?=$/;"	m
+LINK_LIST	kernel/Makefile	/^LINK_LIST = \\$/;"	m
+MULTIBOOT_AOUT_KLUDGE	kernel/include/multiboot.h	53;"	d
+MULTIBOOT_BOOTLOADER_MAGIC	kernel/include/multiboot.h	33;"	d
+MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT	kernel/include/multiboot.h	201;"	d
+MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED	kernel/include/multiboot.h	199;"	d
+MULTIBOOT_FRAMEBUFFER_TYPE_RGB	kernel/include/multiboot.h	200;"	d
+MULTIBOOT_HEADER	kernel/include/multiboot.h	23;"	d
+MULTIBOOT_HEADER_ALIGN	kernel/include/multiboot.h	27;"	d
+MULTIBOOT_HEADER_MAGIC	kernel/include/multiboot.h	30;"	d
+MULTIBOOT_INFO_ALIGN	kernel/include/multiboot.h	39;"	d
+MULTIBOOT_INFO_AOUT_SYMS	kernel/include/multiboot.h	69;"	d
+MULTIBOOT_INFO_APM_TABLE	kernel/include/multiboot.h	86;"	d
+MULTIBOOT_INFO_BOOTDEV	kernel/include/multiboot.h	60;"	d
+MULTIBOOT_INFO_BOOT_LOADER_NAME	kernel/include/multiboot.h	83;"	d
+MULTIBOOT_INFO_CMDLINE	kernel/include/multiboot.h	62;"	d
+MULTIBOOT_INFO_CONFIG_TABLE	kernel/include/multiboot.h	80;"	d
+MULTIBOOT_INFO_DRIVE_INFO	kernel/include/multiboot.h	77;"	d
+MULTIBOOT_INFO_ELF_SHDR	kernel/include/multiboot.h	71;"	d
+MULTIBOOT_INFO_FRAMEBUFFER_INFO	kernel/include/multiboot.h	90;"	d
+MULTIBOOT_INFO_MEMORY	kernel/include/multiboot.h	58;"	d
+MULTIBOOT_INFO_MEM_MAP	kernel/include/multiboot.h	74;"	d
+MULTIBOOT_INFO_MODS	kernel/include/multiboot.h	64;"	d
+MULTIBOOT_INFO_VBE_INFO	kernel/include/multiboot.h	89;"	d
+MULTIBOOT_MEMORY_ACPI_RECLAIMABLE	kernel/include/multiboot.h	237;"	d
+MULTIBOOT_MEMORY_AVAILABLE	kernel/include/multiboot.h	235;"	d
+MULTIBOOT_MEMORY_BADRAM	kernel/include/multiboot.h	239;"	d
+MULTIBOOT_MEMORY_INFO	kernel/include/multiboot.h	47;"	d
+MULTIBOOT_MEMORY_NVS	kernel/include/multiboot.h	238;"	d
+MULTIBOOT_MEMORY_RESERVED	kernel/include/multiboot.h	236;"	d
+MULTIBOOT_MOD_ALIGN	kernel/include/multiboot.h	36;"	d
+MULTIBOOT_PAGE_ALIGN	kernel/include/multiboot.h	44;"	d
+MULTIBOOT_SEARCH	kernel/include/multiboot.h	26;"	d
+MULTIBOOT_VIDEO_MODE	kernel/include/multiboot.h	50;"	d
+OBJS	Makefile	/^OBJS:=boot.o kernel.o$/;"	m
+OBJS	kernel/Makefile	/^OBJS = \\$/;"	m
+OBJS	libc/Makefile	/^OBJS = $(patsubst %.c, %.o, $(SRCS))$/;"	m
+OBJ_LINK	Makefile	/^OBJ_LINK:=crti.o $(OBJ_RTBEGIN) $(OBJS) $(OBJ_RTEND) crtn.o$/;"	m
+OBJ_RTBEGIN	Makefile	/^OBJ_RTBEGIN:=$(shell $(CC) -print-file-name=crtbegin.o)$/;"	m
+OBJ_RTEND	Makefile	/^OBJ_RTEND:=$(shell $(CC) -print-file-name=crtend.o)$/;"	m
+SRCDIR	libc/Makefile	/^SRCDIR = stdio string stdlib$/;"	m
+SRCS	libc/Makefile	/^SRCS = $(shell find $(SRCDIR) -type f -name '*.c')$/;"	m
+SYSROOT	kernel/Makefile	/^SYSROOT=-isystem ..\/sysroot\/usr\/local\/include\/ -isystem .\/kernel\/ -L ..\/sysroot\/usr\/local\/lib$/;"	m
+SYSROOT	libc/Makefile	/^SYSROOT = -isystem include\/$/;"	m
+TAB_WIDTH	kernel/kernel/kernel.c	/^size_t TAB_WIDTH = 8;$/;"	v
+TARGET	Makefile	/^TARGET=mos.bin$/;"	m
+To	kernel/arch/i386/boot.s	/^	To set up a stack, we set the esp register to point to the top of the$/;"	d
+VGA_COLOR_BLACK	kernel/kernel/kernel.c	/^    VGA_COLOR_BLACK = 0,$/;"	e	enum:vga_color	file:
+VGA_COLOR_BLUE	kernel/kernel/kernel.c	/^    VGA_COLOR_BLUE = 1,$/;"	e	enum:vga_color	file:
+VGA_COLOR_BROWN	kernel/kernel/kernel.c	/^    VGA_COLOR_BROWN = 6,$/;"	e	enum:vga_color	file:
+VGA_COLOR_CYAN	kernel/kernel/kernel.c	/^    VGA_COLOR_CYAN = 3,$/;"	e	enum:vga_color	file:
+VGA_COLOR_DARK_GREY	kernel/kernel/kernel.c	/^    VGA_COLOR_DARK_GREY = 8,$/;"	e	enum:vga_color	file:
+VGA_COLOR_GREEN	kernel/kernel/kernel.c	/^    VGA_COLOR_GREEN = 2,$/;"	e	enum:vga_color	file:
+VGA_COLOR_LIGHT_BLUE	kernel/kernel/kernel.c	/^    VGA_COLOR_LIGHT_BLUE = 9,$/;"	e	enum:vga_color	file:
+VGA_COLOR_LIGHT_BROWN	kernel/kernel/kernel.c	/^    VGA_COLOR_LIGHT_BROWN = 14,$/;"	e	enum:vga_color	file:
+VGA_COLOR_LIGHT_CYAN	kernel/kernel/kernel.c	/^    VGA_COLOR_LIGHT_CYAN = 11,$/;"	e	enum:vga_color	file:
+VGA_COLOR_LIGHT_GREEN	kernel/kernel/kernel.c	/^    VGA_COLOR_LIGHT_GREEN = 10,$/;"	e	enum:vga_color	file:
+VGA_COLOR_LIGHT_GREY	kernel/kernel/kernel.c	/^    VGA_COLOR_LIGHT_GREY = 7,$/;"	e	enum:vga_color	file:
+VGA_COLOR_LIGHT_MAGENTA	kernel/kernel/kernel.c	/^    VGA_COLOR_LIGHT_MAGENTA = 13,$/;"	e	enum:vga_color	file:
+VGA_COLOR_LIGHT_RED	kernel/kernel/kernel.c	/^    VGA_COLOR_LIGHT_RED = 12,$/;"	e	enum:vga_color	file:
+VGA_COLOR_MAGENTA	kernel/kernel/kernel.c	/^    VGA_COLOR_MAGENTA = 5,$/;"	e	enum:vga_color	file:
+VGA_COLOR_RED	kernel/kernel/kernel.c	/^    VGA_COLOR_RED = 4,$/;"	e	enum:vga_color	file:
+VGA_COLOR_WHITE	kernel/kernel/kernel.c	/^    VGA_COLOR_WHITE = 15,$/;"	e	enum:vga_color	file:
+VGA_HEIGHT	kernel/kernel/kernel.c	/^static const size_t VGA_HEIGHT = 25;$/;"	v	file:
+VGA_WIDTH	kernel/kernel/kernel.c	/^static const size_t VGA_WIDTH = 80;$/;"	v	file:
+__MM_H__	kernel/kernel/mm.h	2;"	d
+__STDIO_H__	libc/include/stdio.h	2;"	d
+__STRING_H__	libc/include/string.h	2;"	d
+_fini	kernel/arch/i386/crti.s	/^_fini:$/;"	l
+_init	kernel/arch/i386/crti.s	/^_init:$/;"	l
+_start	kernel/arch/i386/boot.s	/^_start:$/;"	l
+abort	libc/stdlib/abort.c	/^int abort()$/;"	f
+addr	kernel/include/multiboot.h	/^  multiboot_uint32_t addr;$/;"	m	struct:multiboot_aout_symbol_table
+addr	kernel/include/multiboot.h	/^  multiboot_uint32_t addr;$/;"	m	struct:multiboot_elf_section_header_table
+addr	kernel/include/multiboot.h	/^  multiboot_uint64_t addr;$/;"	m	struct:multiboot_mmap_entry
+aout_sym	kernel/include/multiboot.h	/^    multiboot_aout_symbol_table_t aout_sym;$/;"	m	union:multiboot_info::__anon1
+apm_table	kernel/include/multiboot.h	/^  multiboot_uint32_t apm_table;$/;"	m	struct:multiboot_info
+blue	kernel/include/multiboot.h	/^  multiboot_uint8_t blue;$/;"	m	struct:multiboot_color
+boot_device	kernel/include/multiboot.h	/^  multiboot_uint32_t boot_device;$/;"	m	struct:multiboot_info
+boot_loader_name	kernel/include/multiboot.h	/^  multiboot_uint32_t boot_loader_name;$/;"	m	struct:multiboot_info
+bss_end_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t bss_end_addr;$/;"	m	struct:multiboot_header
+checksum	kernel/include/multiboot.h	/^  multiboot_uint32_t checksum;$/;"	m	struct:multiboot_header
+cmdline	kernel/include/multiboot.h	/^  multiboot_uint32_t cmdline;$/;"	m	struct:multiboot_info
+cmdline	kernel/include/multiboot.h	/^  multiboot_uint32_t cmdline;$/;"	m	struct:multiboot_mod_list
+config_table	kernel/include/multiboot.h	/^  multiboot_uint32_t config_table;$/;"	m	struct:multiboot_info
+cseg	kernel/include/multiboot.h	/^  multiboot_uint16_t cseg;$/;"	m	struct:multiboot_apm_info
+cseg_16	kernel/include/multiboot.h	/^  multiboot_uint16_t cseg_16;$/;"	m	struct:multiboot_apm_info
+cseg_16_len	kernel/include/multiboot.h	/^  multiboot_uint16_t cseg_16_len;$/;"	m	struct:multiboot_apm_info
+cseg_len	kernel/include/multiboot.h	/^  multiboot_uint16_t cseg_len;$/;"	m	struct:multiboot_apm_info
+depth	kernel/include/multiboot.h	/^  multiboot_uint32_t depth;$/;"	m	struct:multiboot_header
+digitc	libc/stdio/print.c	29;"	d	file:
+digitc	libc/test/print.c	29;"	d	file:
+drives_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t drives_addr;$/;"	m	struct:multiboot_info
+drives_length	kernel/include/multiboot.h	/^  multiboot_uint32_t drives_length;$/;"	m	struct:multiboot_info
+dseg	kernel/include/multiboot.h	/^  multiboot_uint16_t dseg;$/;"	m	struct:multiboot_apm_info
+dseg_len	kernel/include/multiboot.h	/^  multiboot_uint16_t dseg_len;$/;"	m	struct:multiboot_apm_info
+elf_sec	kernel/include/multiboot.h	/^    multiboot_elf_section_header_table_t elf_sec;$/;"	m	union:multiboot_info::__anon1
+entry_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t entry_addr;$/;"	m	struct:multiboot_header
+flags	kernel/include/multiboot.h	/^  multiboot_uint16_t flags;$/;"	m	struct:multiboot_apm_info
+flags	kernel/include/multiboot.h	/^  multiboot_uint32_t flags;$/;"	m	struct:multiboot_header
+flags	kernel/include/multiboot.h	/^  multiboot_uint32_t flags;$/;"	m	struct:multiboot_info
+framebuffer_addr	kernel/include/multiboot.h	/^  multiboot_uint64_t framebuffer_addr;$/;"	m	struct:multiboot_info
+framebuffer_blue_field_position	kernel/include/multiboot.h	/^      multiboot_uint8_t framebuffer_blue_field_position;$/;"	m	struct:multiboot_info::__anon2::__anon4
+framebuffer_blue_mask_size	kernel/include/multiboot.h	/^      multiboot_uint8_t framebuffer_blue_mask_size;$/;"	m	struct:multiboot_info::__anon2::__anon4
+framebuffer_bpp	kernel/include/multiboot.h	/^  multiboot_uint8_t framebuffer_bpp;$/;"	m	struct:multiboot_info
+framebuffer_green_field_position	kernel/include/multiboot.h	/^      multiboot_uint8_t framebuffer_green_field_position;$/;"	m	struct:multiboot_info::__anon2::__anon4
+framebuffer_green_mask_size	kernel/include/multiboot.h	/^      multiboot_uint8_t framebuffer_green_mask_size;$/;"	m	struct:multiboot_info::__anon2::__anon4
+framebuffer_height	kernel/include/multiboot.h	/^  multiboot_uint32_t framebuffer_height;$/;"	m	struct:multiboot_info
+framebuffer_palette_addr	kernel/include/multiboot.h	/^      multiboot_uint32_t framebuffer_palette_addr;$/;"	m	struct:multiboot_info::__anon2::__anon3
+framebuffer_palette_num_colors	kernel/include/multiboot.h	/^      multiboot_uint16_t framebuffer_palette_num_colors;$/;"	m	struct:multiboot_info::__anon2::__anon3
+framebuffer_pitch	kernel/include/multiboot.h	/^  multiboot_uint32_t framebuffer_pitch;$/;"	m	struct:multiboot_info
+framebuffer_red_field_position	kernel/include/multiboot.h	/^      multiboot_uint8_t framebuffer_red_field_position;$/;"	m	struct:multiboot_info::__anon2::__anon4
+framebuffer_red_mask_size	kernel/include/multiboot.h	/^      multiboot_uint8_t framebuffer_red_mask_size;$/;"	m	struct:multiboot_info::__anon2::__anon4
+framebuffer_type	kernel/include/multiboot.h	/^  multiboot_uint8_t framebuffer_type;$/;"	m	struct:multiboot_info
+framebuffer_width	kernel/include/multiboot.h	/^  multiboot_uint32_t framebuffer_width;$/;"	m	struct:multiboot_info
+g_magic	kernel/kernel/mm.c	/^unsigned int g_magic = 0;$/;"	v
+g_mbd	kernel/kernel/mm.c	/^multiboot_info_t* g_mbd = NULL;$/;"	v
+get_phynamic_memory_size	kernel/kernel/mm.c	/^int get_phynamic_memory_size()$/;"	f
+get_random_char	kernel/kernel/kernel.c	/^char get_random_char()$/;"	f
+getchar	libc/stdio/getchar.c	/^int getchar()$/;"	f
+green	kernel/include/multiboot.h	/^  multiboot_uint8_t green;$/;"	m	struct:multiboot_color
+header_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t header_addr;$/;"	m	struct:multiboot_header
+height	kernel/include/multiboot.h	/^  multiboot_uint32_t height;$/;"	m	struct:multiboot_header
+hex_digit_char	libc/stdio/print.c	/^static inline char hex_digit_char(unsigned int i)$/;"	f	file:
+hex_digit_char	libc/test/print.c	/^static inline char hex_digit_char(unsigned int i)$/;"	f	file:
+init_memory	kernel/kernel/mm.c	/^int init_memory(multiboot_info_t* mbd, unsigned int magic)$/;"	f
+is_special_character	kernel/kernel/kernel.c	/^bool is_special_character(char c)$/;"	f
+kernel_main	kernel/kernel/kernel.c	/^void kernel_main(void) $/;"	f
+len	kernel/include/multiboot.h	/^  multiboot_uint64_t len;$/;"	m	struct:multiboot_mmap_entry
+load_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t load_addr;$/;"	m	struct:multiboot_header
+load_end_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t load_end_addr;$/;"	m	struct:multiboot_header
+magic	kernel/include/multiboot.h	/^  multiboot_uint32_t magic;$/;"	m	struct:multiboot_header
+main	libc/test/test_print.c	/^int main(int argc, char* argv[])$/;"	f
+mem_lower	kernel/include/multiboot.h	/^  multiboot_uint32_t mem_lower;$/;"	m	struct:multiboot_info
+mem_upper	kernel/include/multiboot.h	/^  multiboot_uint32_t mem_upper;$/;"	m	struct:multiboot_info
+memcpy	kernel/kernel/kernel.c	/^void memcpy(void *dest, void *src, size_t size)$/;"	f
+memcpy	libc/string/memcpy.c	/^int memcpy()$/;"	f
+memset	libc/string/memset.c	/^int memset()$/;"	f
+mmap_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t mmap_addr;$/;"	m	struct:multiboot_info
+mmap_length	kernel/include/multiboot.h	/^  multiboot_uint32_t mmap_length;$/;"	m	struct:multiboot_info
+mod_end	kernel/include/multiboot.h	/^  multiboot_uint32_t mod_end;$/;"	m	struct:multiboot_mod_list
+mod_start	kernel/include/multiboot.h	/^  multiboot_uint32_t mod_start;$/;"	m	struct:multiboot_mod_list
+mode_type	kernel/include/multiboot.h	/^  multiboot_uint32_t mode_type;$/;"	m	struct:multiboot_header
+mods_addr	kernel/include/multiboot.h	/^  multiboot_uint32_t mods_addr;$/;"	m	struct:multiboot_info
+mods_count	kernel/include/multiboot.h	/^  multiboot_uint32_t mods_count;$/;"	m	struct:multiboot_info
+multiboot_aout_symbol_table	kernel/include/multiboot.h	/^struct multiboot_aout_symbol_table$/;"	s
+multiboot_aout_symbol_table_t	kernel/include/multiboot.h	/^typedef struct multiboot_aout_symbol_table multiboot_aout_symbol_table_t;$/;"	t	typeref:struct:multiboot_aout_symbol_table
+multiboot_apm_info	kernel/include/multiboot.h	/^struct multiboot_apm_info$/;"	s
+multiboot_color	kernel/include/multiboot.h	/^struct multiboot_color$/;"	s
+multiboot_elf_section_header_table	kernel/include/multiboot.h	/^struct multiboot_elf_section_header_table$/;"	s
+multiboot_elf_section_header_table_t	kernel/include/multiboot.h	/^typedef struct multiboot_elf_section_header_table multiboot_elf_section_header_table_t;$/;"	t	typeref:struct:multiboot_elf_section_header_table
+multiboot_header	kernel/include/multiboot.h	/^struct multiboot_header$/;"	s
+multiboot_info	kernel/include/multiboot.h	/^struct multiboot_info$/;"	s
+multiboot_info_t	kernel/include/multiboot.h	/^typedef struct multiboot_info multiboot_info_t;$/;"	t	typeref:struct:multiboot_info
+multiboot_memory_map_t	kernel/include/multiboot.h	/^typedef struct multiboot_mmap_entry multiboot_memory_map_t;$/;"	t	typeref:struct:multiboot_mmap_entry
+multiboot_mmap_entry	kernel/include/multiboot.h	/^struct multiboot_mmap_entry$/;"	s
+multiboot_mod_list	kernel/include/multiboot.h	/^struct multiboot_mod_list$/;"	s
+multiboot_module_t	kernel/include/multiboot.h	/^typedef struct multiboot_mod_list multiboot_module_t;$/;"	t	typeref:struct:multiboot_mod_list
+multiboot_uint16_t	kernel/include/multiboot.h	/^typedef unsigned short          multiboot_uint16_t;$/;"	t
+multiboot_uint32_t	kernel/include/multiboot.h	/^typedef unsigned int            multiboot_uint32_t;$/;"	t
+multiboot_uint64_t	kernel/include/multiboot.h	/^typedef unsigned long long      multiboot_uint64_t;$/;"	t
+multiboot_uint8_t	kernel/include/multiboot.h	/^typedef unsigned char           multiboot_uint8_t;$/;"	t
+num	kernel/include/multiboot.h	/^  multiboot_uint32_t num;$/;"	m	struct:multiboot_elf_section_header_table
+offset	kernel/include/multiboot.h	/^  multiboot_uint32_t offset;$/;"	m	struct:multiboot_apm_info
+pad	kernel/include/multiboot.h	/^  multiboot_uint32_t pad;$/;"	m	struct:multiboot_mod_list
+print_int	libc/stdio/print.c	/^static void print_int(int integer)$/;"	f	file:
+print_int	libc/test/print.c	/^static void print_int(int integer)$/;"	f	file:
+print_llx	libc/stdio/print.c	/^static void print_llx(unsigned long long ullInteger)$/;"	f	file:
+print_llx	libc/test/print.c	/^static void print_llx(unsigned long long ullInteger)$/;"	f	file:
+print_multiboot_info	kernel/kernel/mm.c	/^void print_multiboot_info()$/;"	f
+print_uhex	libc/stdio/print.c	/^static void print_uhex(unsigned int uinteger)$/;"	f	file:
+print_uhex	libc/test/print.c	/^static void print_uhex(unsigned int uinteger)$/;"	f	file:
+print_uint	libc/stdio/print.c	/^static void print_uint(unsigned int ui)$/;"	f	file:
+print_uint	libc/test/print.c	/^static void print_uint(unsigned int ui)$/;"	f	file:
+printk	libc/stdio/print.c	/^int printk(const char* format, ...)$/;"	f
+printk	libc/test/print.c	/^int printk(const char* format, ...)$/;"	f
+put_newline_char	kernel/kernel/kernel.c	/^static inline void put_newline_char()$/;"	f	file:
+put_tab_char	kernel/kernel/kernel.c	/^static inline void put_tab_char()$/;"	f	file:
+putchar	libc/stdio/putchar.c	/^int putchar(char c)$/;"	f
+rand	kernel/kernel/kernel.c	/^int rand(void) {        $/;"	f
+red	kernel/include/multiboot.h	/^  multiboot_uint8_t red;$/;"	m	struct:multiboot_color
+reserved	kernel/include/multiboot.h	/^  multiboot_uint32_t reserved;$/;"	m	struct:multiboot_aout_symbol_table
+screen_scrolling_up	kernel/kernel/kernel.c	/^void __attribute__((optimize("O0"))) screen_scrolling_up(size_t lines)$/;"	f
+set_tab_width	kernel/kernel/kernel.c	/^void __attribute__((constructor)) set_tab_width()$/;"	f
+shndx	kernel/include/multiboot.h	/^  multiboot_uint32_t shndx;$/;"	m	struct:multiboot_elf_section_header_table
+size	kernel/include/multiboot.h	/^  multiboot_uint32_t size;$/;"	m	struct:multiboot_elf_section_header_table
+size	kernel/include/multiboot.h	/^  multiboot_uint32_t size;$/;"	m	struct:multiboot_mmap_entry
+stack_bottom	kernel/arch/i386/boot.s	/^stack_bottom:$/;"	l
+stack_top	kernel/arch/i386/boot.s	/^stack_top:$/;"	l
+strlen	kernel/kernel/kernel.c	/^size_t strlen(const char* str) $/;"	f
+strlen	libc/string/strlen.c	/^int strlen()$/;"	f
+strsize	kernel/include/multiboot.h	/^  multiboot_uint32_t strsize;$/;"	m	struct:multiboot_aout_symbol_table
+tabsize	kernel/include/multiboot.h	/^  multiboot_uint32_t tabsize;$/;"	m	struct:multiboot_aout_symbol_table
+terminal_buffer	kernel/kernel/kernel.c	/^uint16_t* terminal_buffer;$/;"	v
+terminal_color	kernel/kernel/kernel.c	/^uint8_t terminal_color;$/;"	v
+terminal_column	kernel/kernel/kernel.c	/^size_t terminal_column;$/;"	v
+terminal_initialize	kernel/kernel/kernel.c	/^void terminal_initialize(void) $/;"	f
+terminal_putchar	kernel/kernel/kernel.c	/^void terminal_putchar(char c) $/;"	f
+terminal_putentryat	kernel/kernel/kernel.c	/^void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) $/;"	f
+terminal_row	kernel/kernel/kernel.c	/^size_t terminal_row;$/;"	v
+terminal_setcolor	kernel/kernel/kernel.c	/^void terminal_setcolor(uint8_t color) $/;"	f
+terminal_write	kernel/kernel/kernel.c	/^void terminal_write(const char* data, size_t size) $/;"	f
+terminal_writestring	kernel/kernel/kernel.c	/^void terminal_writestring(const char* data) $/;"	f
+tmp_sleep	kernel/kernel/kernel.c	/^void __attribute__((optimize("O0"))) tmp_sleep()$/;"	f
+type	kernel/include/multiboot.h	/^  multiboot_uint32_t type;$/;"	m	struct:multiboot_mmap_entry
+u	kernel/include/multiboot.h	/^  } u;$/;"	m	struct:multiboot_info	typeref:union:multiboot_info::__anon1
+vbe_control_info	kernel/include/multiboot.h	/^  multiboot_uint32_t vbe_control_info;$/;"	m	struct:multiboot_info
+vbe_interface_len	kernel/include/multiboot.h	/^  multiboot_uint16_t vbe_interface_len;$/;"	m	struct:multiboot_info
+vbe_interface_off	kernel/include/multiboot.h	/^  multiboot_uint16_t vbe_interface_off;$/;"	m	struct:multiboot_info
+vbe_interface_seg	kernel/include/multiboot.h	/^  multiboot_uint16_t vbe_interface_seg;$/;"	m	struct:multiboot_info
+vbe_mode	kernel/include/multiboot.h	/^  multiboot_uint16_t vbe_mode;$/;"	m	struct:multiboot_info
+vbe_mode_info	kernel/include/multiboot.h	/^  multiboot_uint32_t vbe_mode_info;$/;"	m	struct:multiboot_info
+version	kernel/include/multiboot.h	/^  multiboot_uint16_t version;$/;"	m	struct:multiboot_apm_info
+vga_color	kernel/kernel/kernel.c	/^enum vga_color {$/;"	g	file:
+vga_entry	kernel/kernel/kernel.c	/^static inline uint16_t vga_entry(unsigned char uc, uint8_t color) $/;"	f	file:
+vga_entry_color	kernel/kernel/kernel.c	/^static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) $/;"	f	file:
+width	kernel/include/multiboot.h	/^  multiboot_uint32_t width;$/;"	m	struct:multiboot_header

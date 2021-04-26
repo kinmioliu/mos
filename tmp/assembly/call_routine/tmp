@@ -1,0 +1,66 @@
+
+stack_frame.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <add>:
+#include <stdio.h>
+
+int add(int a, int b)
+{
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	89 7d ec             	mov    %edi,-0x14(%rbp)
+   7:	89 75 e8             	mov    %esi,-0x18(%rbp)
+    int c = a;
+   a:	8b 45 ec             	mov    -0x14(%rbp),%eax
+   d:	89 45 fc             	mov    %eax,-0x4(%rbp)
+    int d = b;
+  10:	8b 45 e8             	mov    -0x18(%rbp),%eax
+  13:	89 45 f8             	mov    %eax,-0x8(%rbp)
+    int sum = c + d + 5;
+  16:	8b 55 fc             	mov    -0x4(%rbp),%edx
+  19:	8b 45 f8             	mov    -0x8(%rbp),%eax
+  1c:	01 d0                	add    %edx,%eax
+  1e:	83 c0 05             	add    $0x5,%eax
+  21:	89 45 f4             	mov    %eax,-0xc(%rbp)
+    return sum;
+  24:	8b 45 f4             	mov    -0xc(%rbp),%eax
+}
+  27:	5d                   	pop    %rbp
+  28:	c3                   	retq   
+
+0000000000000029 <main>:
+
+int main(int argc, char *argv[])
+{
+  29:	55                   	push   %rbp
+  2a:	48 89 e5             	mov    %rsp,%rbp
+  2d:	48 83 ec 20          	sub    $0x20,%rsp
+  31:	89 7d ec             	mov    %edi,-0x14(%rbp)
+  34:	48 89 75 e0          	mov    %rsi,-0x20(%rbp)
+    int a = 4;
+  38:	c7 45 fc 04 00 00 00 	movl   $0x4,-0x4(%rbp)
+    int b = 7;
+  3f:	c7 45 f8 07 00 00 00 	movl   $0x7,-0x8(%rbp)
+    int sum = 0;
+  46:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%rbp)
+    sum = add(a, b);
+  4d:	8b 55 f8             	mov    -0x8(%rbp),%edx
+  50:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  53:	89 d6                	mov    %edx,%esi
+  55:	89 c7                	mov    %eax,%edi
+  57:	e8 00 00 00 00       	callq  5c <main+0x33>
+  5c:	89 45 f4             	mov    %eax,-0xc(%rbp)
+    printf("sum :%d\n", sum);
+  5f:	8b 45 f4             	mov    -0xc(%rbp),%eax
+  62:	89 c6                	mov    %eax,%esi
+  64:	bf 00 00 00 00       	mov    $0x0,%edi
+  69:	b8 00 00 00 00       	mov    $0x0,%eax
+  6e:	e8 00 00 00 00       	callq  73 <main+0x4a>
+    return 0;
+  73:	b8 00 00 00 00       	mov    $0x0,%eax
+}
+  78:	c9                   	leaveq 
+  79:	c3                   	retq   

@@ -138,6 +138,18 @@ kernel:
     call init_memory
     call register_gdt
     call reload_segment
+    
+    /*
+    movl $0x1, %eax
+    push %eax
+    movl $0x2, %ebx
+    push %ebx
+    */
+    /*
+    push $28
+    push $0x20
+    call PIC_remap
+    */
 	/*
 	This is a good place to initialize crucial processor state before the
 	high-level kernel is entered. It's best to minimize the early
@@ -157,6 +169,8 @@ kernel:
 	stack since (pushed 0 bytes so far), so the alignment has thus been
 	preserved and the call is well defined.
 	*/
+
+    //call test_idts
 	call kernel_main
 
  	call _fini

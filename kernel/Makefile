@@ -25,7 +25,8 @@ KERNEL_OBJS = \
 	kernel/debug.o \
 	kernel/kernel.o \
 	kernel/mm.o \
-	kernel/idts.o
+	kernel/idts.o \
+	kernel/pic.o
 
 OBJS = \
 	$(ARCHDIR)/crti.o \

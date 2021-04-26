@@ -1,0 +1,15 @@
+
+hello.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <_start>:
+   0:	ba 0e 00 00 00       	mov    $0xe,%edx
+   5:	b9 00 00 00 00       	mov    $0x0,%ecx
+   a:	bb 01 00 00 00       	mov    $0x1,%ebx
+   f:	b8 04 00 00 00       	mov    $0x4,%eax
+  14:	cd 80                	int    $0x80
+  16:	bb 00 00 00 00       	mov    $0x0,%ebx
+  1b:	b8 01 00 00 00       	mov    $0x1,%eax
+  20:	cd 80                	int    $0x80

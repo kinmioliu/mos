@@ -6,10 +6,13 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <io.h>
 
 void dividezero_handler()
 {
     printk("divide_zero\n");
+    uint8_t v = inb(0x60);
+    PIC_sendEOI(1);
 }
 
 struct idtDesc {
@@ -29,6 +32,7 @@ extern void set_idt();
 void register_idt(int id, uint32_t isr)
 {
     // create a idt entry
+    printk("id:%x, isr:%x\n", id, isr);
     idt[0].offset_1 = (uint16_t)(((uint32_t)dividezero_handler) & 0xffff);
     idt[0].selector = 0x8; //km code
     idt[0].zero = 0;
@@ -46,13 +50,16 @@ void test_idts()
     int a = 5;
     int b = 0;
     //int c = a / b;
+    /*
     __asm__ volatile(
     "int $0x2;"
     );
+    */
+    /*
     printk("a page fault interrupt\n");
     int *p = 0x8b;
     *p = 5;
-    
+    */
     //printk("c is :%x\n", c);
 }
 

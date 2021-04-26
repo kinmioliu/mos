@@ -291,8 +291,12 @@ void kernel_main(void)
     /* Initialize terminal interface */
     terminal_initialize();
     printk("pd:%x, pt:%x\n", page_directory, first_page_table);
+    PIC_remap(0x20, 0x28);
     test_idts();
-    //return;
+    while(1) {
+        asm volatile ("hlt");
+    }
+    return;
     /* Newline support is left as an exercise. */
     terminal_writestring("Hello, kernel World!\nthis is a new line.\n");
     terminal_writestring("another str.\n");

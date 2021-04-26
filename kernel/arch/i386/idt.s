@@ -17,8 +17,8 @@ irq0:
     push %gs
     
     cli
-    
-    call dividezero_handler
+    call keyboard_handler
+    #call dividezero_handler
     
     sti
     
