@@ -214,7 +214,7 @@ void __attribute__((optimize("O0"))) tmp_sleep()
     float a = 109.143;
     float b = 107.365;
     size_t i = 0;
-    while (i < 7000000) {
+    while (i < 7000) {
         result = a * b;
         i++;
     }

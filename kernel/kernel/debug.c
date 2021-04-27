@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <intstd.h>
+#include <stdint.h>
 
 void print_asm_u32(uint32_t val)
 {

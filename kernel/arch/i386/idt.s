@@ -10,6 +10,7 @@ IDTR:
 .section .text
 .type irq0, @function
 irq0:
+    pop %eax
     pusha
     push %ds
     push %es
@@ -17,7 +18,12 @@ irq0:
     push %gs
     
     cli
-    call keyboard_handler
+    push %eax
+    #push $6
+    #call keyboard_handler
+    call page_fault_handler
+    pop %eax
+    #pop %eax
     #call dividezero_handler
     
     sti

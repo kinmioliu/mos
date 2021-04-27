@@ -75,8 +75,8 @@ void PIC_remap(int offset1, int offset2)
     // set keybood 
     // IRQ_set_mask(1);
     //IRQ_clear_mask(1);
-    //outb(PIC1_DATA, 0xff);
-    //outb(PIC2_DATA, 0xff);
+    outb(PIC1_DATA, 0xff);
+    outb(PIC2_DATA, 0xff);
     IRQ_clear_mask(1);
     io_wait();
     asm("sti");
@@ -129,8 +129,9 @@ uint16_t pic_get_isr(void)
     return __pic_get_irq_reg(PIC_READ_ISR);
 }
 
-void keyboard_handler()
+void keyboard_handler(int a, int b)
 {
+    printk("a:%d, b:%d\n",a ,b);
     //outb(PIC1_COMMAND, 0x61);
     // get the keyboard value
     uint8_t val = inb(0x60);

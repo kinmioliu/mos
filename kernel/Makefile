@@ -2,7 +2,7 @@
 CC = i686-elf-gcc
 AS = i686-elf-as
 
-SYSROOT=-isystem ../sysroot/usr/local/include/ -isystem ./kernel/ -L ../sysroot/usr/local/lib
+SYSROOT=-isystem ../sysroot/usr/local/include/ -isystem ./kernel/ -isystem ./include/ -L ../sysroot/usr/local/lib
 
 #default configure
 CFLAGS ?= -O2 -g # ?= if not assigned ,then assigned

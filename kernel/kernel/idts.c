@@ -49,6 +49,9 @@ void test_idts()
     register_idt(0, 0);
     int a = 5;
     int b = 0;
+    printk("cause a page fault\n");
+    int *p = 0x8b;
+    *p = 5;
     //int c = a / b;
     /*
     __asm__ volatile(

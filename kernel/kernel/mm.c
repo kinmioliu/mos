@@ -3,11 +3,13 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <multiboot.h>
+
 multiboot_info_t* g_mbd = NULL;
 unsigned int g_magic = 0;
 int get_phynamic_memory_size()
 {
     int t = memcpy();
+    int m = memcpy();
     return t;
 }
 
@@ -98,13 +100,22 @@ void print_multiboot_info()
 }
 
 
+
+void page_fault_handler(unsigned int err)
+{
+    uint32_t mem;
+    __asm__ ("movl %%CR2, %0"
+            :"=b"(mem));
+    printk("pagefault, err:%x, mem:%x\n", err, mem);
+}
+
 int init_memory(multiboot_info_t* mbd, unsigned int magic)
 {
     if (magic != 0x2badb002) {
         //return -1;
     }
     
-	g_mbd = mbd;
-	g_magic = magic;
+    g_mbd = mbd;
+    g_magic = magic;
     return 0;
 }
