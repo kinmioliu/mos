@@ -33,6 +33,7 @@ irq0:
     pop %es
     pop %ds
     popa
+#push $0
     iret
 
 .global set_idt

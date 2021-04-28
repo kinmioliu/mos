@@ -1,5 +1,8 @@
 #! /bin/bash
 
+cd kernel
+make all
+cd ..
 sbin='kernel/mos.kernel'
 osiso='mos.iso'
 rm -rf isodir

@@ -214,7 +214,7 @@ void __attribute__((optimize("O0"))) tmp_sleep()
     float a = 109.143;
     float b = 107.365;
     size_t i = 0;
-    while (i < 7000) {
+    while (i < 70000) {
         result = a * b;
         i++;
     }
@@ -275,6 +275,7 @@ void set_pt768()
 // This should go outside any function..
 extern void loadPageDirectory(unsigned int*);
 extern void enablePaging();
+extern void test_big_stack_frame();
 
 void kernel_main(void) 
 {
@@ -289,10 +290,15 @@ void kernel_main(void)
     enablePaging();
     */
     /* Initialize terminal interface */
+    int tmp;
     terminal_initialize();
     printk("pd:%x, pt:%x\n", page_directory, first_page_table);
     PIC_remap(0x20, 0x28);
+    print_boot_page_table();
     test_idts();
+    printk("tmp:%x\n", &tmp);
+    //print_multiboot_info();
+    test_big_stack_frame();
     while(1) {
         asm volatile ("hlt");
     }
@@ -321,6 +327,7 @@ void kernel_main(void)
 
 	printk("g_mbd is:0x%x, magic is:0x%x\n", g_mbd, g_magic);
     print_boot_page_table();
+    test_big_stack_frame();
     return;
     printk("mem_upper:%x, mem_lower:%x, boot_device:%x, mmap_length:%x, mmap_addr:%x\n",
             g_mbd->mem_upper, g_mbd->mem_lower, g_mbd->boot_device, g_mbd->mmap_length, g_mbd->mmap_addr);

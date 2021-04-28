@@ -50,7 +50,8 @@ void test_idts()
     int a = 5;
     int b = 0;
     printk("cause a page fault\n");
-    int *p = 0x8b;
+    //int *p = 0xC0122804;
+    int *p = 0xb8;
     *p = 5;
     //int c = a / b;
     /*

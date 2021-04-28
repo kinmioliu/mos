@@ -45,13 +45,14 @@ void set_page_directory()
 void print_boot_page_table()
 {
     set_page_directory();
+    return;
     unsigned long pd;
     __asm__ volatile (
         "movl %%cr3, %0;"
 	:"=a"(pd)
 	);
     printk("va:0x%x, pa:0x%x\n", 0xC03FF000, VA2PA(0xC03FF000));
-    printk("cr3:0x%x\n", pd );
+    printk("cr3:0x%x\n", pd);
     unsigned int *pt1 = (unsigned long*)(((unsigned long*)(pd + 0xC0000000))[0xC0100000>>22] & 0xfffff000);
     printk("pt1:0x%x\n", pt1);
     pt1 = (unsigned int)pt1 + 0xC0000000;  // pt1 is a pa, so we should format it to va
@@ -99,7 +100,7 @@ void print_multiboot_info()
     }
 }
 
-
+uint32_t pt_xxx[1024] __attribute__((aligned(4096)));
 
 void page_fault_handler(unsigned int err)
 {
@@ -107,6 +108,23 @@ void page_fault_handler(unsigned int err)
     __asm__ ("movl %%CR2, %0"
             :"=b"(mem));
     printk("pagefault, err:%x, mem:%x\n", err, mem);
+    uint32_t pd_inx = mem >> 22;
+    uint32_t pt_inx = mem >> 12 & 0x3FF;
+/*
+    printk("pd:%x,pt:%x,%d\n", pd_inx, pt_inx, ((uint32_t *)PT_TBL(mem))[pt_inx]);
+    uint32_t flags = ((uint32_t *)PT_TBL(mem))[pt_inx] & 0xFFF;
+    printk("flags:%x\n", flags);
+*/    
+    printk("page_directory:%x\n", page_directory[pd_inx]);
+
+    if ((page_directory[pd_inx] & 0x1) == 0) {
+        printk("null pd\n");
+        //page_directory[pd_inx] = ((uint32_t)pt_xxx -0xC0000000 + 3);
+        page_directory[pd_inx] = ((uint32_t)pt_xxx + 3);
+    }    
+    //((uint32_t *)PT_TBL(mem))[pt_inx] = 0xb0000 + (flags | 0x1);
+    pt_xxx[pt_inx] = 0xb00000+3;
+    printk("pd:%x,pt:%x\n", pd_inx, pt_inx);
 }
 
 int init_memory(multiboot_info_t* mbd, unsigned int magic)
