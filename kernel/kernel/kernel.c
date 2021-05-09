@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <idt.h>
 #include <mm.h>
 #include <stdio.h>
 #include <multiboot.h>
@@ -85,7 +86,7 @@ uint32_t page_directory[1024] __attribute__((aligned(4096)));
 uint32_t first_page_table[1024] __attribute__((aligned(4096)));
 uint32_t pt_768[1024] __attribute__((aligned(4096)));
 
-void terminal_initialize(void) 
+void init_terminal(void) 
 {
     terminal_row = 0;
     terminal_column = 0;
@@ -98,6 +99,7 @@ void terminal_initialize(void)
             terminal_buffer[index] = vga_entry(' ', terminal_color);
         }
     }
+    printk("initialize terminal [OK]\n");
 }
  
 void terminal_setcolor(uint8_t color) 
@@ -272,6 +274,13 @@ void set_pt768()
     unsigned int i = 0;
 }
 
+void __attribute__((optimize("O0"))) divide()
+{
+    int a = 56;
+    int b = 0;
+    int c = a/b;
+}
+
 // This should go outside any function..
 extern void loadPageDirectory(unsigned int*);
 extern void enablePaging();
@@ -279,19 +288,19 @@ extern void test_big_stack_frame();
 
 void kernel_main(void) 
 {
-    /*
-	// set pt1 to pd
-    set_pd_not_present();
-    set_pt1();
-    page_directory[0] = ((unsigned int)first_page_table) | 3;
-
-    // And this inside a function
-    loadPageDirectory(page_directory);
-    enablePaging();
-    */
     /* Initialize terminal interface */
     int tmp;
-    terminal_initialize();
+    init_terminal();
+    init_interrupt();
+    init_mm();
+    init_timer();
+    init_sched();
+    while(1) {
+        asm volatile ("hlt");
+    }
+    //divide();
+    return;
+    
     printk("pd:%x, pt:%x\n", page_directory, first_page_table);
     PIC_remap(0x20, 0x28);
     print_boot_page_table();
@@ -299,10 +308,7 @@ void kernel_main(void)
     printk("tmp:%x\n", &tmp);
     //print_multiboot_info();
     test_big_stack_frame();
-    while(1) {
-        asm volatile ("hlt");
-    }
-    return;
+        return;
     /* Newline support is left as an exercise. */
     terminal_writestring("Hello, kernel World!\nthis is a new line.\n");
     terminal_writestring("another str.\n");

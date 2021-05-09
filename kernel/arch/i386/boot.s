@@ -130,11 +130,21 @@ kernel:
     movl $(boot_page_directory + 768 *4), %ebx
     */
     push %eax /*magic*/
-    movl %ebx, %ecx
+    /*movl %ebx, %ecx
     addl $0xC0000000, %ecx
     movl %ecx, %ebx
-	push %ebx /*mbd*/
-    
+    */
+    /*map ebx to a va 0xC0100000*/
+    movl %ebx, %ecx
+    /*
+    shr $12, %ecx
+    and $0x3ff, %ecx
+    mul $4, %ecx
+    */
+    addl $3, %ecx
+    movl %ecx, boot_page_table1 + 16 * 4
+    addl $0xC0000000, %ebx
+	push %ebx  /*mbd*/
     call init_memory
     call register_gdt
     call reload_segment

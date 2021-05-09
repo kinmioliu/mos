@@ -2,7 +2,7 @@
 CC = i686-elf-gcc
 AS = i686-elf-as
 
-SYSROOT=-isystem ../sysroot/usr/local/include/ -isystem ./kernel/ -isystem ./include/ -L ../sysroot/usr/local/lib
+SYSROOT=-isystem ../sysroot/usr/local/include/ -isystem ./kernel/ -isystem ./kernel/interrupt/ -isystem ./include/ -L ../sysroot/usr/local/lib -mno-80387
 
 #default configure
 CFLAGS ?= -O2 -g # ?= if not assigned ,then assigned
@@ -24,9 +24,13 @@ KERNEL_OBJS = \
 	$(KERNEL_ARCH_OBJS) \
 	kernel/debug.o \
 	kernel/kernel.o \
-	kernel/mm.o \
-	kernel/idts.o \
-	kernel/pic.o \
+	kernel/mm/mm.o \
+	kernel/timer.o \
+	kernel/shced.o \
+	kernel/interrupt/idts.o \
+	kernel/interrupt/trap_fault.o \
+	kernel/interrupt/pic.o \
+	kernel/interrupt/keyboard.o \
 	kernel/stack_frame.o
 
 OBJS = \
@@ -65,6 +69,6 @@ kernel/%.o:kernel/%.c
 
 clean:
 	rm -rf $(ARCHDIR)/*.o
-	rm -rf kernel/*.o
+	rm -rf $(OBJS)
 	rm -rf mos.kernel
 
