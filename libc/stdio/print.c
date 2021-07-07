@@ -8,6 +8,7 @@ static inline char hex_digit_char(unsigned int i)
     }
     return i >= 10 ? 'a' + i - 10 : '0' + i;
 }
+extern void terminal_writestring(const char* str);
 
 /* 
  * 32bit
@@ -97,6 +98,7 @@ int printk(const char* format, ...)
     int integer;
     unsigned int uinteger;
     unsigned long long ullInteger;
+    char *str;
     while (*c != 0) {
         if (*c == '%') {
             //get and matcher next char
@@ -134,6 +136,12 @@ int printk(const char* format, ...)
                             break;
                     }
                     break;
+                case 's':
+                    {
+                        str = va_arg(arg_ptr, char *);
+                        terminal_writestring(str);
+                        break;
+                    }
                 default:
                     putchar('%');
                     putchar(*c);
