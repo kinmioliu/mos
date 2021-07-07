@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <idt.h>
-#include <mm.h>
+#include <mm/mm.h>
 #include <stdio.h>
 #include <multiboot.h>
 
@@ -217,7 +217,7 @@ void __attribute__((optimize("O0"))) tmp_sleep()
     float b = 107.365;
     size_t i = 0;
     while (i < 70000) {
-        result = a * b;
+        //result = a * b;
         i++;
     }
 }
@@ -285,6 +285,7 @@ void __attribute__((optimize("O0"))) divide()
 extern void loadPageDirectory(unsigned int*);
 extern void enablePaging();
 extern void test_big_stack_frame();
+extern volatile uint32_t g_pic_count;
 
 void kernel_main(void) 
 {
@@ -295,9 +296,16 @@ void kernel_main(void)
     init_mm();
     init_timer();
     init_sched();
+    volatile uint32_t last_g_pic_count = g_pic_count;
+    // 600 cycles consume about 32s
     while(1) {
-        asm volatile ("hlt");
+        if (g_pic_count != 0 && last_g_pic_count != g_pic_count && g_pic_count % 600 == 0) {
+            printk("pit interrupt: %d\n", g_pic_count);
+            last_g_pic_count = g_pic_count;
+        }
     }
+    printk("hlt\n");
+    asm volatile ("hlt");
     //divide();
     return;
     

@@ -9,11 +9,14 @@
 #include <io.h>
 #include <idts.h>
 #include <pic.h>
+#include <idt.h>
+#include <isr_stub.def>
 
 extern void init_divide_zero();
 extern void init_keyboard();
 extern void init_pagefault();
-#define MAX_INTERRUPT   0x100
+extern void init_pit();
+//#define MAX_INTERRUPT   0x100
 #define PIC1_REMAP_OFFSET 0x20
 #define PIC2_REMAP_OFFSET 0x28
 
@@ -28,33 +31,6 @@ typedef struct IdtDescTag {
 
 uint8_t g_idtr[6] = {0};
 IdtDesc g_idt[MAX_INTERRUPT] = {0};
-
-void isr_stub_handler(uint16_t iid)
-{
-    printk("interrupt id:%d\n",iid);
-}
-
-__attribute__ ((interrupt)) void isr_stub(interrupt_frame_t frame)
-{
-    __asm__ volatile (
-//            "pusha\t\n"
-            "push %ds\t\n"
-            "push %es\t\n"
-            "push %fs\t\n"
-            "push %gs\t\n"
-            "cli\t\n"          
-            );
-    isr_stub_handler(1);
-    __asm__ volatile (
-            "sti\t\n"
-            "pop %gs\t\n"
-            "pop %fs\t\n"
-            "pop %es\t\n"
-            "pop %ds\t\n"
-//            "popa\t\n"
-//            "iret\t\n"
-            );
-}
 
 void register_isr(uint16_t iid, uint32_t handler)
 {
@@ -71,19 +47,19 @@ void register_isr(uint16_t iid, uint32_t handler)
 
 void create_idt()
 {
-    // fill g_idt with stub 
     int i;
     for (i = 0; i < MAX_INTERRUPT; i++) {
-        g_idt[i].offset_1 = (uint16_t)(((uint32_t)isr_stub) & 0xffff);
+        g_idt[i].offset_1 = (uint16_t)(((uint32_t)(global_isr_stub_func[i])) & 0xffff);
         g_idt[i].selector = 0x8; //km code
         g_idt[i].zero = 0;
         g_idt[i].type_attr = 0x8e;// 0b10001110
-        g_idt[i].offset_2 = (uint16_t)(((uint32_t)isr_stub) >> 16);
+        g_idt[i].offset_2 = (uint16_t)(((uint32_t)(global_isr_stub_func[i])) >> 16);
     }
     // register special idt 
     init_divide_zero();
     init_keyboard();
     init_pagefault();
+    init_pit();
 }
 
 void set_idtr()

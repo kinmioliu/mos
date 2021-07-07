@@ -73,11 +73,16 @@ void PIC_remap(int offset1, int offset2)
 
     outb(PIC1_DATA, a1);    // restore saved masks
     outb(PIC2_DATA, a2);
+
+    // set PIT
+
     // set keybood 
     // IRQ_set_mask(1);
     //IRQ_clear_mask(1);
     outb(PIC1_DATA, 0xff);
     outb(PIC2_DATA, 0xff);
+    IRQ_clear_mask(0);  // enable pit
+    set_pit_count(0xfffc);
     IRQ_clear_mask(1);
     io_wait();
     sti();

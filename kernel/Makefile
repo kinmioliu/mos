@@ -30,6 +30,7 @@ KERNEL_OBJS = \
 	kernel/interrupt/idts.o \
 	kernel/interrupt/trap_fault.o \
 	kernel/interrupt/pic.o \
+	kernel/interrupt/pit.o \
 	kernel/interrupt/keyboard.o \
 	kernel/stack_frame.o
 
