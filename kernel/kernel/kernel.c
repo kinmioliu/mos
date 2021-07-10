@@ -299,7 +299,7 @@ void kernel_main(void)
     volatile uint32_t last_g_pic_count = g_pic_count;
     // 600 cycles consume about 32s
     while(1) {
-        if (g_pic_count != 0 && last_g_pic_count != g_pic_count && g_pic_count % 600 == 0) {
+        if (g_pic_count != 0 && last_g_pic_count != g_pic_count && g_pic_count % 75 == 0) {
             printk("pit interrupt: %d\n", g_pic_count);
             last_g_pic_count = g_pic_count;
         }

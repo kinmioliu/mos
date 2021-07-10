@@ -30,9 +30,13 @@ void set_pit_count(uint16_t count) {
     sti();
 	return;
 }
+
+extern void pick_next_task();
+
 volatile uint32_t g_pic_count = 0;
 __attribute__((interrupt)) void PIT_handler(interrupt_frame_t frame)
 {
+/*    
     __asm__ volatile (
 //        "pusha\t\n"
         "push %ds\t\n"
@@ -41,8 +45,16 @@ __attribute__((interrupt)) void PIT_handler(interrupt_frame_t frame)
         "push %gs\t\n"
         "cli\t\n"          
         );
-    g_pic_count++;
+*/        
     PIC_sendEOI(0);
+    g_pic_count++;
+    //printk("inter\n");
+    if (g_pic_count % 75 == 0) {
+        cli();
+        pick_next_task();
+        sti();
+    }
+/*    
     __asm__ volatile (
         "sti\t\n"
         "pop %gs\t\n"
@@ -52,6 +64,7 @@ __attribute__((interrupt)) void PIT_handler(interrupt_frame_t frame)
 //        "popa\t\n"
 //        "iret\t\n"
         );
+*/        
 }
 
 void init_pit()

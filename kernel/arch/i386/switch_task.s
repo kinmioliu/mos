@@ -2,13 +2,191 @@
 /*
 * saved pbc
 */
+/*
 last_pbc:
 .skip 4096
+*/
 
-
+/*
 new_stack_bottom:
 .skip 16384
 new_stack_top:
+*/
+
+.section .text
+.global init_task
+.type init_task, @function
+init_task:
+    /*at this point, the esp is retaddr*/
+    movl 0x4(%esp), %eax // get param1 can't use pop, it would pop the ret address
+    movl 0x8(%esp),%ebx // get param2
+    movl %esp, %edx
+/*
+    push %eax
+    call print_asm_u32
+    push %ebx
+    call print_asm_u32
+    pop %ebx
+    pop %eax
+*/    
+    cli
+    movl %ebx, %esp // set new task stack(esp)
+    //movl %eax, %esi // set new task entrance
+    push %ebp
+    push %esp
+    push %esi
+    push %edi
+    push %eax
+    push %ebx
+    push %ecx
+    push %edx
+/*
+    push %esp
+    call print_asm_u32
+    pop %eax
+*/
+    movl %edx, %esp // restore esp
+    sti
+    ret
+
+.section .text
+.global run_task
+.type run_task, @function
+run_task:
+    // save cur task register
+    mov 0x4(%esp), %ebx
+    movl 0x8(%esp), %eax
+//    push %eax
+//    call print_asm_u32
+//    pop %eax
+    push %ebp
+    push %esp
+    push %esi
+    push %edi
+    push %eax
+    push %ebx
+    push %ecx
+    push %edx
+   //movl $new_stack_top, %esp;  
+   //movl %ebx, %esp
+    movl $0x3000, %ebp
+    movl %eax, %esp // switch to new task stack
+//    push %eax
+//    call print_asm_u32
+//    pop %eax
+    sub  $0x20, %esp
+//    push %ebx
+//    call print_asm_u32
+//    pop %ebx
+
+    // I dont know why the eax become zero after sub esp
+//    push %eax
+//    call print_asm_u32
+//    pop %eax
+
+    // ret
+    //call test_task
+    /*
+    movl last_pbc+28, %edx
+    movl last_pbc+24, %ecx
+    movl last_pbc+20, %ebx
+    movl last_pbc+16, %eax
+    movl last_pbc+12, %edi
+    movl last_pbc+8, %esi
+    movl last_pbc+4, %esp
+    movl last_pbc, %ebp
+    */
+    // restore the register
+    pop %edx
+    pop %ecx
+    pop %eax
+    pop %eax
+    pop %edi
+    pop %esi
+//    push %esi
+//    call print_asm_u32
+//    pop %esi
+    pop %esp// %esp
+    pop %ebp
+    // jmp %eax
+    //jmp (%eax)
+    //jmp *(%eax)
+//    push %ebx
+//    call print_asm_u32
+//    pop %ebx
+    sti // enable interrupt should befor jmp
+    jmp *%ebx //test_task2
+    ret;
+
+.section .text
+.global run_task2
+.type run_task2, @function
+run_task2:
+    // save cur task register
+    mov 0x4(%esp), %ebx
+    movl 0x8(%esp), %eax
+//    push %eax
+//    call print_asm_u32
+//    pop %eax
+    push %ebp
+    push %esp
+    push %esi
+    push %edi
+    push %eax
+    push %ebx
+    push %ecx
+    push %edx
+   //movl $new_stack_top, %esp;  
+   //movl %ebx, %esp
+    movl $2000, %ebp
+    movl %eax, %esp // switch to new task stack
+//    push %eax
+//    call print_asm_u32
+//    pop %eax
+    //ret
+    sub  $0x20, %esp
+//    push %ebx
+//    call print_asm_u32
+//    pop %ebx
+    // I dont know why the eax become zero after sub esp
+//    push %eax
+//    call print_asm_u32
+//    pop %eax
+
+    //ret
+    //call test_task
+    /*
+    movl last_pbc+28, %edx
+    movl last_pbc+24, %ecx
+    movl last_pbc+20, %ebx
+    movl last_pbc+16, %eax
+    movl last_pbc+12, %edi
+    movl last_pbc+8, %esi
+    movl last_pbc+4, %esp
+    movl last_pbc, %ebp
+    */
+    // restore the register
+    pop %edx
+    pop %ecx
+    pop %eax
+    pop %eax
+    pop %edi
+    pop %esi
+//    push %esi
+//    call print_asm_u32
+//    pop %esi
+    pop %esp// %esp
+    pop %ebp
+    // jmp %eax
+    //jmp (%eax)
+    //jmp *(%eax)
+//    push %ebx
+//    call print_asm_u32
+//    pop %ebx
+    sti
+    jmp *%ebx //test_task2
+
+    ret;
 
 
 .section .text
