@@ -16,16 +16,28 @@ struct ktask {
     task_exec exec;
     uint8_t stack[0];
 };
+#define MAX_TASK 10
+
+struct ktask* ktask_queue[10] = {0};
+uint32_t task_num = 0;
+struct ktask* cur_ktask;
+uint32_t g_eip;
 
 extern uint32_t g_pic_count;
+extern long task1_eip;
+extern long task1_ebp;
+extern long task1_esp;
+extern long task2_ebp;
 
 int32_t test_task(void *argv)
 {
-    printk("this is a test_task %x.\n", g_pic_count);
+    cur_ktask = (struct ktask*)0x1000;
+    printk("this is a test_task %d,%x,%x,%x,%x.\n", g_pic_count, task1_eip, task1_esp, task1_ebp, task2_ebp);
 // /*   
     while (1) {
         if (g_pic_count % 10 == 0) {            
-            printk("test_task is running.\n");
+            printk("1test_task is running %d.\n", g_pic_count);
+            printk("2test_task is running %d.\n", g_eip);
         }
     };
     printk("test_task end.\n");
@@ -34,22 +46,19 @@ int32_t test_task(void *argv)
 
 int32_t test_task2(void *argv)
 {
-    printk("this is a test_task2 %x.\n", g_pic_count);
+    cur_ktask = (struct ktask*)0x2000;
+    printk("this is a test_task2 %d,%x,%x,%x,%x.\n", g_pic_count, task1_eip, task1_esp, task1_ebp, task2_ebp);
 // /*  
     while (1) {
         if (g_pic_count % 10 == 0) {            
-            printk("test_task2 is running.\n");
+            printk("3test_task is running %d.\n", g_pic_count);
+            printk("4test_task is running %d.\n", g_pic_count);
         }
     };
     printk("test_task2 end.\n");
 // */  
 }
 
-#define MAX_TASK 10
-
-struct ktask* ktask_queue[10] = {0};
-uint32_t task_num = 0;
-struct ktask* cur_ktask;
 
 struct ktask* get_next_task() 
 {
@@ -77,13 +86,16 @@ void sched_task(struct *ktask)
 }
 */
 
-void pick_next_task()
+void __attribute__((optimize("O0"))) pick_next_task()
 {
     struct ktask* next_task = get_next_task();
     if (next_task != 0) {
         /* this may be the kernel stack*/
         uint32_t cur_ebp, cur_esp, cur_esi, cur_edi;
-        __asm__ volatile (
+         //cur_ktask = next_task;
+         //printk("cur_task:%x, eip:%x, esp:%x\n", cur_ktask, cur_ktask->eip, cur_ktask->esp);
+         if (next_task->eip == test_task) {
+         __asm__ volatile (
             "movl %%ebp, %0;"
             "movl %%esp, %1;"
             "movl %%esi, %2;"
@@ -91,14 +103,33 @@ void pick_next_task()
 //                :"=a"(cur_ktask->ebp),"=b"(cur_ktask->esp),"=c"(cur_ktask->esi),"=d"(cur_ktask->edi)
                   :"=a"(cur_ebp),"=b"(cur_esp),"=c"(cur_esi),"=d"(cur_edi)
                 );
-         //printk("pick next task cur_ebp:%x, cur_esp:%x, cur_esi:%x, cur_edi:%x\n", cur_ktask->ebp, cur_ktask->esp, cur_ktask->esi, cur_ktask->edi);
          printk(" pick next task cur_ebp:%x, cur_esp:%x, cur_esi:%x, cur_edi:%x\n", cur_ebp, cur_esp, cur_esi, cur_edi);
-         cur_ktask = next_task;
-         printk("cur_task:%x, eip:%x, esp:%x\n", cur_ktask, cur_ktask->eip, cur_ktask->esp);
-         if (next_task->eip == test_task) {
+            printk("task2 to task1\n");
              run_task2(next_task->eip, next_task->esp);
+             printk("task2 finish switch\n");
          } else {
-             run_task(next_task->eip, next_task->esp);
+          __asm__ volatile (
+            "movl %%ebp, %0;"
+            "movl %%esp, %1;"
+            "movl %%esi, %2;"
+            "movl %%edi, %3;"
+//                :"=a"(cur_ktask->ebp),"=b"(cur_ktask->esp),"=c"(cur_ktask->esi),"=d"(cur_ktask->edi)
+                  :"=a"(cur_ebp),"=b"(cur_esp),"=c"(cur_esi),"=d"(cur_edi)
+                );
+         printk(" pick next task cur_ebp:%x, cur_esp:%x, cur_esi:%x, cur_edi:%x\n", cur_ebp, cur_esp, cur_esi, cur_edi);
+           printk("task1 to task2\n");
+             run_task3(next_task->eip, next_task->esp);
+             cur_ktask = (struct ktask*)0x1000;
+             printk("task1 finish switch\n");
+              __asm__ volatile (
+                "movl %%ebp, %0;"
+                "movl %%esp, %1;"
+                "movl %%esi, %2;"
+                "movl %%edi, %3;"
+                      :"=a"(cur_ebp),"=b"(cur_esp),"=c"(cur_esi),"=d"(cur_edi)
+                    );
+               printk(" pick next task cur_ebp:%x, cur_esp:%x, cur_esi:%x, cur_edi:%x\n", cur_ebp, cur_esp, cur_esi, cur_edi);
+               return;
          }
     }
 }
@@ -129,6 +160,7 @@ void pick_next_task()
         cur_ktask = task;
     }
     ktask_queue[task_num++] = task;
+    cur_ktask = task;
     return task;
 
     // save cur pbc
@@ -149,5 +181,17 @@ void init_sched()
     create_task();
     create_task();
     //schedule();
+    uint32_t eip = read_eip();
+    if (cur_ktask == 0x1000) {
+        g_eip = eip;
+    } else {
+        g_eip = 5;
+    }
+    printk("ret:%x\n", eip);
+    int *test;
+    if ((uint32_t)(0xC0000000) < (uint32_t)(&test)) {
+        printk("less:%x\n",(uint32_t)(&test));
+    }
+    
 }
 
