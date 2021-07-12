@@ -60,11 +60,6 @@ init_task:
     push %ebx
     push %ecx
     push %edx
-/*
-    push %esp
-    call print_asm_u32
-    pop %eax
-*/
     movl %edx, %esp // restore esp
     sti
     ret
@@ -156,6 +151,7 @@ run_task2:
 //    push %eax
 //    call print_asm_u32
 //    pop %eax
+    movl $0x2900, %esp
     push %ebp
     push %esp
     push %esi
@@ -164,8 +160,9 @@ run_task2:
     push %ebx
     push %ecx
     push %edx
-   //movl $new_stack_top, %esp;  
    //movl %ebx, %esp
+    movl %ebp, task2_ebp
+    movl %esp, task2_esp(,1)
     movl task1_ebp, %ecx
     movl $0xC0000000, %edx
     cmp %edx, %ecx
@@ -178,21 +175,42 @@ use_ebp:
     movl task1_ebp, %ebp
     movl task1_esp, %esp
 begin_switch:
-//    push %eax
-//    call print_asm_u32
-//    pop %eax
-    //ret
-//    push %ebx
-//    call print_asm_u32
-//    pop %ebx
     // I dont know why the eax become zero after sub esp
-//    push %eax
-//    call print_asm_u32
-//    pop %eax
-
+  
+    movl task1_ebp, %ecx
+    sti
+    cmp $0xC0000000, %ecx
+    jb use_eip
+    pop %edx
+    pop %ecx
+    pop %ebx
+    pop %eax
+    pop %edi
+    pop %esi
+    pop %esp// %esp
+    pop %ebp
+    sti
+    //jmp *%ebx
+    jmp test_task
+    ret
+use_eip:
+    pop %edx
+    pop %ecx
+    pop %ebx
+    pop %eax
+    pop %edi
+    pop %esi
+    pop %esp// %esp
+    pop %ebp
+    sti
+    //jmp test_task
+    jmp *task1_eip
+    ret
+   
     //ret
     //call test_task
     // restore the register
+/*    
     pop %edx
     pop %ecx
     pop %eax
@@ -201,38 +219,25 @@ begin_switch:
     pop %esi
     pop %ecx// %esp
     pop %ebp
-
+*/
 /*    push %eax
     call print_asm_u32
     pop %eax
 */    
     //sti
     //jmp *%ebx //jmp to task1
+/*    
     movl task1_ebp, %ecx
     sti
     cmp $0xC0000000, %ecx
     jb use_eip
-    //cmpl $0x18e4, %ecx
-    //je use_eip
     jmp *%ebx
     ret
 use_eip:
-/*
-    push $1
-    call print_asm_u32
-    pop %eax
-*/    
     jmp *task1_eip
 
-/*    
-    if task1_eip > 0xc0000
-        jmp *%ebx
-    else:
-        jmp *task1_eip
-    jmp *task1_eip
-*/
     ret;
-
+*/
 
 // task1 switch task2
 .section .text
@@ -240,8 +245,8 @@ use_eip:
 .type run_task3, @function
 run_task3:
     // save cur task register
-    mov 0x4(%esp), %ebx // para1 eip
-    movl 0x8(%esp), %ecx // para2 esp
+//    mov 0x4(%esp), %ebx // para1 eip
+//    movl 0x8(%esp), %ecx // para2 esp
 //    push %eax
 //    call print_asm_u32
 //    pop %eax
@@ -253,7 +258,6 @@ run_task3:
     push %ebx
     push %ecx
     push %edx
-    movl %eax, task2_ebp
 /*
     push %eax
     call print_asm_u32
@@ -298,7 +302,9 @@ switch_:
    //movl $new_stack_top, %esp;  
    //movl %ebx, %esp
     movl $0x3000, %ebp
-    movl %ecx, %esp // switch to new task stack
+    //movl %ecx, %esp // switch to new task stack
+    movl $0x2900, %esp
+    // why need sub 0x20, because pushed 8 regist when init
     sub  $0x20, %esp
 //    push %ebx
 //    call print_asm_u32
@@ -311,16 +317,6 @@ switch_:
 
     // ret
     //call test_task
-    /*
-    movl last_pbc+28, %edx
-    movl last_pbc+24, %ecx
-    movl last_pbc+20, %ebx
-    movl last_pbc+16, %eax
-    movl last_pbc+12, %edi
-    movl last_pbc+8, %esi
-    movl last_pbc+4, %esp
-    movl last_pbc, %ebp
-    */
     // restore the register
     pop %edx
     pop %ecx
@@ -340,7 +336,8 @@ switch_:
 //    call print_asm_u32
 //    pop %ebx
     sti // enable interrupt should befor jmp
-    jmp *%ebx //test_task2
+    //jmp *%ebx //test_task2
+    jmp test_task2
     ret;
 
 

@@ -3,6 +3,7 @@
 
 typedef int32_t (*task_exec)(void *argv);
 
+extern void __attribute__((optimize("O0"))) tmp_sleep();
 struct ktask {
     uint32_t esp;
     uint32_t ebp;
@@ -23,21 +24,29 @@ uint32_t task_num = 0;
 struct ktask* cur_ktask;
 uint32_t g_eip;
 
-extern uint32_t g_pic_count;
+extern volatile uint32_t g_pic_count;
+//extern uint32_t g_pic_count;
 extern long task1_eip;
 extern long task1_ebp;
 extern long task1_esp;
 extern long task2_ebp;
+extern long task2_esp;
 
 int32_t test_task(void *argv)
 {
     cur_ktask = (struct ktask*)0x1000;
-    printk("this is a test_task %d,%x,%x,%x,%x.\n", g_pic_count, task1_eip, task1_esp, task1_ebp, task2_ebp);
+    printk("this is a test_task %d,%x,%x,%x,%x,%x.\n", g_pic_count, task1_eip, task1_esp, task1_ebp, task2_ebp, task2_esp);
 // /*   
     while (1) {
         if (g_pic_count % 10 == 0) {            
+            tmp_sleep();
+ //           tmp_sleep();
             printk("1test_task is running %d.\n", g_pic_count);
-            printk("2test_task is running %d.\n", g_eip);
+//            tmp_sleep();
+//            tmp_sleep();
+//            printk("2test_task is running %d.\n", g_pic_count);
+ //           tmp_sleep();
+ //           tmp_sleep();
         }
     };
     printk("test_task end.\n");
@@ -47,12 +56,16 @@ int32_t test_task(void *argv)
 int32_t test_task2(void *argv)
 {
     cur_ktask = (struct ktask*)0x2000;
-    printk("this is a test_task2 %d,%x,%x,%x,%x.\n", g_pic_count, task1_eip, task1_esp, task1_ebp, task2_ebp);
+    printk("this is a test_task2 %d,%x,%x,%x,%x,%x.\n", g_pic_count, task1_eip, task1_esp, task1_ebp, task2_ebp, task2_esp);
 // /*  
     while (1) {
-        if (g_pic_count % 10 == 0) {            
+        if (g_pic_count % 10 == 0) { 
+           tmp_sleep();
+    //        tmp_sleep();
             printk("3test_task is running %d.\n", g_pic_count);
-            printk("4test_task is running %d.\n", g_pic_count);
+      //      tmp_sleep();
+        //    tmp_sleep();
+//            printk("4test_task is running %d.\n", g_pic_count);
         }
     };
     printk("test_task2 end.\n");
@@ -117,7 +130,11 @@ void __attribute__((optimize("O0"))) pick_next_task()
                   :"=a"(cur_ebp),"=b"(cur_esp),"=c"(cur_esi),"=d"(cur_edi)
                 );
          printk(" pick next task cur_ebp:%x, cur_esp:%x, cur_esi:%x, cur_edi:%x\n", cur_ebp, cur_esp, cur_esi, cur_edi);
-           printk("task1 to task2\n");
+           printk("task1 to task2:%d\n", g_pic_count);
+           //if (g_pic_count > 200) {
+           //    printk("do not switch!\n");
+           //    return;
+           //}
              run_task3(next_task->eip, next_task->esp);
              cur_ktask = (struct ktask*)0x1000;
              printk("task1 finish switch\n");
@@ -192,6 +209,7 @@ void init_sched()
     if ((uint32_t)(0xC0000000) < (uint32_t)(&test)) {
         printk("less:%x\n",(uint32_t)(&test));
     }
+    //run_task3(cur_ktask->eip, cur_ktask->esp);
     
 }
 
