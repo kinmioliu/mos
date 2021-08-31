@@ -25,6 +25,7 @@ KERNEL_OBJS = \
 	kernel/debug.o \
 	kernel/kernel.o \
 	kernel/mm/mm.o \
+	kernel/dev/floppy.o \
 	kernel/timer.o \
 	kernel/shced.o \
 	kernel/interrupt/idts.o \

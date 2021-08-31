@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <idt.h>
 #include <mm/mm.h>
+#include <dev/dev.h>
 #include <stdio.h>
 #include <multiboot.h>
 
@@ -296,6 +297,7 @@ void kernel_main(void)
     init_mm();
     init_timer();
     init_sched();
+    init_dev();
     volatile uint32_t last_g_pic_count = g_pic_count;
     // 600 cycles consume about 32s
     while(1) {

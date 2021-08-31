@@ -38,7 +38,7 @@ int32_t test_task(void *argv)
     printk("this is a test_task %d,%x,%x,%x,%x,%x.\n", g_pic_count, task1_eip, task1_esp, task1_ebp, task2_ebp, task2_esp);
 // /*   
     while (1) {
-        if (g_pic_count % 10 == 0) {            
+        if (g_pic_count % 2 == 0) {            
             tmp_sleep();
  //           tmp_sleep();
             printk("1test_task is running %d.\n", g_pic_count);
@@ -195,8 +195,8 @@ void schedule()
 void init_sched()
 {
     printk("init sched\n");
-    create_task();
-    create_task();
+//    create_task();
+//    create_task();
     //schedule();
     uint32_t eip = read_eip();
     if (cur_ktask == 0x1000) {

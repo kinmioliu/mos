@@ -79,7 +79,7 @@ __attribute__((interrupt)) void PIT_handler(interrupt_frame_t frame)
     PIC_sendEOI(0);
     g_pic_count++;
 //    printk("inter\n");
-    if (g_pic_count % 75 == 0) {
+    if (g_pic_count % 20 == 0) {
         cli();
         pick_next_task();
         sti();
